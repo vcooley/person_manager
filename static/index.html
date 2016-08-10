@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Person Keeper</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="app">
+        <div style="margin-top: 1rem" class="container">
+            <h2>Person Manager</h2>
+            <ul class="nav nav-pills" style="margin-bottom: 2rem">
+                <li role="presentation" class="active"><a v-on:click="clearAll" data-toggle="pill" href="#create">Create</a></li>
+                <li role="presentation"><a v-on:click="clearAll" data-toggle="pill" href="#retrieve">Retrieve</a></li>
+                <li role="presentation"><a v-on:click="clearAll" data-toggle="pill" href="#update">Update</a></li>
+                <li role="presentation"><a v-on:click="clearAll" data-toggle="pill" href="#delete">Delete</a></li>
+            </ul>
+
+            <div class="message alert {{ message.className }}" v-show="message.message" role="alert">{{ message.message }}</div>
+
+            <div class="tab-content">
+                <div id="create" class="tab-pane fade in active">
+                   <form v-on:submit.prevent="handleCreate">
+                       <div class="form-group">
+                           <label for="first-name">First name</label>
+                           <input v-model="person.firstName" class="form-control" type="text" id="first-name" placeholder="First name">
+                       </div>
+                       <div class="form-group">
+                           <label for="last-name">Last name</label>
+                           <input v-model="person.lastName" class="form-control" type="text" id="last-name" placeholder="Last name">
+                       </div>
+                       <div class="form-group">
+                           <label for="birth-date">Date of birth</label>
+                           <input v-model="person.birthDate" class="form-control" type="date" id="birth-date" placeholder="Birth date">
+                       </div>
+                       <div class="form-group">
+                           <label for="zip-code">Zip code</label>
+                           <input v-model="person.zipCode" class="form-control" id="zip-code" placeholder="Zip code">
+                       </div>
+                       <button class="btn btn-primary" type="submit">Submit</button>
+                   </form>
+                </div>
+
+                <div id="retrieve" class="tab-pane fade">
+                    <form v-on:submit.prevent="handleRetrieve">
+                        <div class="form-group">
+                            <label for="retrieve-id">Id</label>
+                            <input id="retrieve-id" class="form-control" type="text" v-model="person.id" placeholder="Enter Id or leave blank to fetch all people">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Get info</button>
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    First Name
+                                </th>
+                                <th>
+                                    Last Name
+                                </th>
+                                <th>
+                                    Birth Date
+                                </th>
+                                <th>
+                                    Zip Code
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="person in retrievedPersons">
+                                <th scope="row">
+                                    {{ person.id }}
+                                </th>
+                                <td>
+                                    {{ person.first_name }}
+                                </td>
+                                <td>
+                                    {{ person.last_name }}
+                                </td>
+                                <td>
+                                    {{ person.birth_date }}
+                                </td>
+                                <td>
+                                    {{ person.zip_code }}
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+                <div id="update" class="tab-pane fade">
+                    <form v-on:submit.prevent="handleUpdate">
+                        <div class="form-group">
+                            <label for="id">Id</label>
+                            <input v-model="person.id" class="form-control" type="text" id="id" placeholder="Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="first-name">First name</label>
+                            <input v-model="person.firstName" class="form-control" type="text" id="first-name" placeholder="First name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last name</label>
+                            <input v-model="person.lastName" class="form-control" type="text" id="last-name" placeholder="Last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="birth-date">Date of birth</label>
+                            <input v-model="person.birthDate" class="form-control" type="date" id="birth-date" placeholder="Birth date">
+                        </div>
+                        <div class="form-group">
+                            <label for="zip-code">Zip code</label>
+                            <input v-model="person.zipCode" class="form-control" id="zip-code" placeholder="Zip code">
+                        </div>
+                        <button class="btn btn-warning" type="submit">Submit</button>
+                    </form>
+                </div>
+
+                <div id="delete" class="tab-pane fade">
+                    <form v-on:submit.prevent="handleDelete">
+                        <div class="form-group">
+                            <label for="delete-id">Id</label>
+                            <input id="delete-id" class="form-control" type="text" v-model="person.id" placeholder="Enter Id of person to delete">
+                        </div>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</footer>
+</html>
